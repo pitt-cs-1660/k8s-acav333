@@ -71,9 +71,9 @@ spec:
             secretKeyRef:
               name: database
               key: user-password
-          ports:
-            - containerPort: 80
-              name: wordpress
+      ports:
+        - containerPort: 80
+          name: wordpress
       ##
       # define volume mounts here, be sure to reference
       # the PVC in your container spec
