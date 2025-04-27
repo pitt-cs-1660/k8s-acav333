@@ -24,7 +24,7 @@ data:
   ##
   # create non-sensative data attributes
   ##
-  host: wordpress-mysql  
+  host: wordpress-mysql
   user: wordpress
 ---
 apiVersion: apps/v1
@@ -39,16 +39,16 @@ spec:
   ##
   # Create app selector labels here
   ##
-  selector:         
+  selector:
     matchLabels:
       app: wordpress
       tier: frontend
   template:
-      ##
+    ##
     # Create metadata labels here
     ##
     metadata:
-      labels:        
+      labels:
         app: wordpress
         tier: frontend
     spec:
@@ -56,16 +56,7 @@ spec:
         - image: wordpress:6.2.1-apache
           name: wordpress
           env:
-          ##
-          # mount non-sensitive environment vars from configmap ref
-          # WORDPRESS_DB_HOST | WORDPRESS_DB_USER
-          ##
-
-          ##
-          # mount sensitive environment vars from secret ref
-          # WORDPRESS_DB_PASSWORD (hint use the user-password key)
-          ##
-           - name: WORDPRESS_DB_HOST
+        - name: WORDPRESS_DB_HOST
           valueFrom:
             configMapKeyRef:
               name: wordpress
@@ -87,13 +78,13 @@ spec:
       # define volume mounts here, be sure to reference
       # the PVC in your container spec
       ##
-       volumeMounts:
+      volumeMounts:
         - name: wordpress-persistent-storage
           mountPath: /var/www/html
       volumes:
-      - name: wordpress-persistent-storage
-        persistentVolumeClaim:
-          claimName: wp-pv-claim
+        - name: wordpress-persistent-storage
+          persistentVolumeClaim:
+            claimName: wp-pv-claim
 ---
 ##
 # Create persistent volume claim here
