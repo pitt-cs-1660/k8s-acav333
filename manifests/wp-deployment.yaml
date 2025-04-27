@@ -22,7 +22,7 @@ metadata:
   name: wordpress
 data:
   ##
-  # create non-sensative data attributes
+  # create non-sensitive data attributes
   ##
   host: wordpress-mysql
   user: wordpress
@@ -71,16 +71,16 @@ spec:
                 secretKeyRef:
                   name: database
                   key: user-password
-      ports:
-        - containerPort: 80
-          name: wordpress
-      ##
-      # define volume mounts here, be sure to reference
-      # the PVC in your container spec
-      ##
-      volumeMounts:
-        - name: wordpress-persistent-storage
-          mountPath: /var/www/html
+          ports:
+            - containerPort: 80
+              name: wordpress
+          ##
+          # define volume mounts here, be sure to reference
+          # the PVC in your container spec
+          ##
+          volumeMounts:
+            - name: wordpress-persistent-storage
+              mountPath: /var/www/html
       volumes:
         - name: wordpress-persistent-storage
           persistentVolumeClaim:

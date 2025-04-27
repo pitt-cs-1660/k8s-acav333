@@ -11,10 +11,10 @@ spec:
     - port: 3306
   ##
   # Create service selector labels here
+  ##
   selector:
     app: wordpress
     tier: mysql
-  ##
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -22,7 +22,7 @@ metadata:
   name: wordpress-mysql
 data:
   ##
-  # create non-sensative data attributes
+  # create non-sensitive data attributes
   ##
   database: wordpress
   user: wordpress
@@ -57,60 +57,4 @@ spec:
           env:
             - name: MYSQL_DATABASE
               valueFrom:
-              configMapKeyRef:
-                name: wordpress-mysql
-                key: database
-            - name: MYSQL_USER
-              valueFrom:
-              configMapKeyRef:
-                name: wordpress-mysql
-                key: user
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: database
-                  key: root-password
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: database
-                  key: user-password
-          ##
-          # mount non-sensitive environment vars from configmap
-          # MYSQL_DATABASE | MYSQL_USER
-          ##
-
-          ##
-          # mount sensitive environment vars from secret
-          # MYSQL_ROOT_PASSWORD | MYSQL_PASSWORD
-          ##
-          ports:
-            - containerPort: 3306
-              name: mysql
-      ##
-      # define volume mounts here, be sure to reference
-      # the PVC in your container spec
-      ##
-      volumeMounts:
-        - name: mysql-persistent-storage
-          mountPath: /var/lib/mysql
-      volumes:
-        - name: mysql-persistent-storage
-          persistentVolumeClaim:
-            claimName: mysql-pv-claim
----
-##
-# Create persistent volume claim here
-##
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pv-claim
-  labels:
-    app: wordpress
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
+                configMapKeyRef:
